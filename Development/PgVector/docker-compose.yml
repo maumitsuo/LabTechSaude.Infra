@@ -1,0 +1,26 @@
+name: labtechsaude
+
+services:
+  db-pgvector:
+    image: maumitsuo/labtechsaude-db-pgvector:latest
+    container_name: labtechsaude-db-pgvector
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - TZ=America/Sao_Paulo
+      - LC_ALL=pt_BR.UTF-8
+      - LANG=pt_BR.UTF-8
+      - LANGUAGE=pt_BR.UTF-8
+      - POSTGRES_PASSWORD=${PGVECTOR_PASSWORD}
+      - PGDATA=/data/pgvector
+    ports:
+      - "${PGVECTOR_PORT}:5432"
+    volumes:
+      - pgdata:/data/pgvector
+
+volumes:
+  pgdata:
